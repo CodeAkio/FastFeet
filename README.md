@@ -65,7 +65,7 @@
 Após baixar o projeto pelo git clone, realize os seguintes passos:
 
 ```console
-cd projects_and_tasks
+cd FastFeet
 yarn install
 yarn dev
 ```
