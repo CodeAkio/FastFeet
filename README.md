@@ -12,13 +12,17 @@
 * [Express.js](https://www.npmjs.com/package/express)
 * [Nodemon](https://www.npmjs.com/package/nodemon)
 * [Sucrase](https://www.npmjs.com/package/sucrase)
+* [PostgreSQL](https://www.postgresql.org/)
 * [Sequelize](https://www.npmjs.com/package/sequelize)
+* [pg](https://www.npmjs.com/package/pg)
 * [Bcrypt](https://www.npmjs.com/package/bcryptjs)
 * [JWT](https://www.npmjs.com/package/jsonwebtoken)
 * [Yup](https://www.npmjs.com/package/yup)
 * [ESLint](https://www.npmjs.com/package/eslint)
 * [Prettier](https://www.npmjs.com/package/prettier)
 * [EditorConfig](https://www.npmjs.com/package/editorconfig)
+* [Multer](https://www.npmjs.com/package/multer)
+* [DotEnv](https://www.npmjs.com/package/dotenv)
 
 
 ## Rotas
