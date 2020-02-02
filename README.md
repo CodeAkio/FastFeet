@@ -23,6 +23,12 @@
 * [EditorConfig](https://www.npmjs.com/package/editorconfig)
 * [Multer](https://www.npmjs.com/package/multer)
 * [DotEnv](https://www.npmjs.com/package/dotenv)
+* [MongoDB](https://www.mongodb.com/)
+* [Mongoose](https://www.npmjs.com/package/mongoose)
+* [Nodemailer](https://www.npmjs.com/package/nodemailer)
+* [Redis](https://redis.io/)
+* [Bee Queue](https://www.npmjs.com/package/bee-queue)
+* [Date fns](https://www.npmjs.com/package/date-fns)
 
 
 ## Rotas
@@ -71,5 +77,7 @@ Após baixar o projeto pelo git clone, realize os seguintes passos:
 ```console
 cd FastFeet
 yarn install
+yarn sequelize db:migrate
+yarn sequelize db:seed:all
 yarn dev
 ```
