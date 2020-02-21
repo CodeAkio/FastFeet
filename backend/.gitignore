@@ -1,0 +1,5 @@
+node_modules/
+tmp/uploads/*.jpg
+tmp/uploads/*.jpeg
+tmp/uploads/*.png
+.env

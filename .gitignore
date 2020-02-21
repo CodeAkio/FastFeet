@@ -1,9 +1,0 @@
-backend/node_modules/
-backend/tmp/uploads/*.jpg
-backend/tmp/uploads/*.jpeg
-backend/tmp/uploads/*.png
-backend/.env
-
-frontend/node_modules/
-
-mobile/node_modules/
