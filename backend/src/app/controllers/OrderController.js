@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-// import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
-// import pt from 'date-fns/locale/pt';
+import { Op } from 'sequelize';
 import Order from '../models/Order';
 import File from '../models/File';
 import Deliveryman from '../models/Deliveryman';
@@ -11,7 +10,7 @@ import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, q: query } = req.query;
 
     const orders = await Order.findAll({
       attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
@@ -50,6 +49,11 @@ class OrderController {
           attributes: ['id', 'path', 'url'],
         },
       ],
+      where: {
+        product: {
+          [Op.iLike]: `%${query || ''}%`,
+        },
+      },
     });
 
     return res.json(orders);
