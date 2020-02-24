@@ -18,7 +18,6 @@ export default function Recipients() {
       });
 
       setRecipients(response.data);
-      console.tron.log(recipients);
     }
 
     loadRecepients();
