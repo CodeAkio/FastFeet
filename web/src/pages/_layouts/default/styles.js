@@ -26,20 +26,11 @@ export const Wrapper = styled.div`
       font-size: 16px;
       color: #666;
     }
-    td:nth-child(1) {
-      width: 5%;
+    td:first-child {
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
     }
-    td:nth-child(2) {
-      width: 30%;
-    }
-    td:nth-child(3) {
-      width: 50%;
-    }
-    td:nth-child(4) {
-      text-align: center;
-      width: 5%;
+    td:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }

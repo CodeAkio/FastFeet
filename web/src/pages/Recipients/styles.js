@@ -5,6 +5,22 @@ export const Container = styled.div`
   max-width: 1200px;
   margin: 36px auto;
 
+  table {
+    td:first-child {
+      width: 5%;
+    }
+    td:nth-child(2) {
+      width: 30%;
+    }
+    td:nth-child(3) {
+      width: 50%;
+    }
+    td:last-child {
+      text-align: center;
+      width: 5%;
+    }
+  }
+
   form {
     input {
       height: 36px;
