@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
 import api from '~/services/api';
+import formattedId from '~/utils/formattedId';
 import { Container, HeaderDiv } from './styles';
 
 export default function Recipients() {
@@ -22,11 +23,6 @@ export default function Recipients() {
 
     loadRecepients();
   }, [recipients, search]);
-
-  function formattedId(id) {
-    const zeroLeftId = String(id).padStart(2, '0');
-    return `#${zeroLeftId}`;
-  }
 
   return (
     <Container>
