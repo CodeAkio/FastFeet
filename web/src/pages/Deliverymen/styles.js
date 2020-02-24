@@ -22,7 +22,7 @@ export const Container = styled.div`
     td:nth-child(3) {
       width: auto;
     }
-    td:nth-child(3) {
+    td:nth-child(4) {
       width: auto;
     }
     td:last-child {
