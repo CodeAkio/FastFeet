@@ -9,6 +9,19 @@ import Queue from '../../lib/Queue';
 
 class DeliveryController {
   async index(req, res) {
+    const deliveryProblems = await DeliveryProblem.findAll({
+      include: [
+        {
+          model: Order,
+          as: 'delivery',
+        },
+      ],
+    });
+
+    return res.json(deliveryProblems);
+  }
+
+  async show(req, res) {
     const { id } = req.params;
 
     const deliveryProblems = await DeliveryProblem.findAll({
