@@ -1,71 +1,42 @@
-import React from 'react';
-import { MdAdd } from 'react-icons/md';
+import React, { useState, useEffect } from 'react';
+import { MdMoreHoriz } from 'react-icons/md';
 
-import { Container, HeaderDiv } from './styles';
+import api from '~/services/api';
+import formattedId from '~/utils/formattedId';
+import { Container } from './styles';
 
 export default function Problems() {
+  const [problems, setProblems] = useState([]);
+
+  useEffect(() => {
+    async function loadRecepients() {
+      const response = await api.get('/delivery/problems');
+
+      setProblems(response.data);
+    }
+
+    loadRecepients();
+  }, [problems]);
+
   return (
     <Container>
       <h1>Problemas na entrega</h1>
 
-      <HeaderDiv>
-        <div>
-          <i className="fa fa-search" aria-hidden="true" />
-          <input
-            name="search"
-            type="search"
-            placeholder="Buscar por destinatários"
-          />
-        </div>
-
-        <button type="button">
-          <MdAdd size={16} color="#fff" /> CADASTRAR
-        </button>
-      </HeaderDiv>
-
       <table>
         <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Endereço</th>
+          <th>Encomenda</th>
+          <th>Problema</th>
           <th>Ações</th>
         </tr>
-        <tr>
-          <td>#01</td>
-          <td>Ludwig van Beethoven</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#02</td>
-          <td>Wolfgang Amadeus</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#03</td>
-          <td>Johann Sebastian Bach</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#04</td>
-          <td>Frédéric Chopin</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#05</td>
-          <td>Piotr Ilitch Tchaikovski</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#06</td>
-          <td>Antonio Vivaldi</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
+        {problems.map(problem => (
+          <tr>
+            <td>{formattedId(problem.delivery.id)}</td>
+            <td>{problem.description}</td>
+            <td>
+              <MdMoreHoriz size={24} color="#C6C6C6" />
+            </td>
+          </tr>
+        ))}
       </table>
     </Container>
   );
