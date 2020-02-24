@@ -5,6 +5,32 @@ export const Container = styled.div`
   max-width: 1200px;
   margin: 36px auto;
 
+  table {
+    td {
+      img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
+    }
+    td:first-child {
+      width: auto;
+    }
+    td:nth-child(2) {
+      width: auto;
+    }
+    td:nth-child(3) {
+      width: auto;
+    }
+    td:nth-child(3) {
+      width: auto;
+    }
+    td:last-child {
+      text-align: center;
+      width: 5%;
+    }
+  }
+
   form {
     input {
       height: 36px;

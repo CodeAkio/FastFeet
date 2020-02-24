@@ -1,9 +1,28 @@
-import React from 'react';
-import { MdAdd } from 'react-icons/md';
+import React, { useState, useEffect } from 'react';
+import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
+import api from '~/services/api';
+import formattedId from '~/utils/formattedId';
 import { Container, HeaderDiv } from './styles';
 
 export default function Deliverymen() {
+  const [deliverymen, setDeliverymen] = useState([]);
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    async function loadRecepients() {
+      const response = await api.get('/deliverymen', {
+        params: {
+          q: search,
+        },
+      });
+
+      setDeliverymen(response.data);
+    }
+
+    loadRecepients();
+  }, [deliverymen, search]);
+
   return (
     <Container>
       <h1>Gerenciando entregadores</h1>
@@ -14,7 +33,9 @@ export default function Deliverymen() {
           <input
             name="search"
             type="search"
-            placeholder="Buscar por destinatários"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Buscar por entregadores"
           />
         </div>
 
@@ -26,46 +47,30 @@ export default function Deliverymen() {
       <table>
         <tr>
           <th>ID</th>
+          <th>Foto</th>
           <th>Nome</th>
-          <th>Endereço</th>
+          <th>E-mail</th>
           <th>Ações</th>
         </tr>
-        <tr>
-          <td>#01</td>
-          <td>Ludwig van Beethoven</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#02</td>
-          <td>Wolfgang Amadeus</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#03</td>
-          <td>Johann Sebastian Bach</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#04</td>
-          <td>Frédéric Chopin</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#05</td>
-          <td>Piotr Ilitch Tchaikovski</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#06</td>
-          <td>Antonio Vivaldi</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
+        {deliverymen.map(deliveryman => (
+          <tr>
+            <td>{formattedId(deliveryman.id)}</td>
+            <td>
+              <img
+                src={
+                  deliveryman.avatar.url ||
+                  'https://api.adorable.io/avatars/35/abott@adorable.png'
+                }
+                alt={deliveryman.name}
+              />
+            </td>
+            <td>{deliveryman.name}</td>
+            <td>{deliveryman.email}</td>
+            <td>
+              <MdMoreHoriz size={24} color="#C6C6C6" />
+            </td>
+          </tr>
+        ))}
       </table>
     </Container>
   );
