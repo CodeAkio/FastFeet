@@ -1,34 +1,50 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { MdMoreHoriz, MdVisibility, MdDeleteForever } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
-import { Container, OptionsList, Modal, ModalContent } from './styles';
+import {
+  Container,
+  OptionsList,
+  Modal,
+  ModalContent,
+  CancellationAlert,
+  CancellationAlertContent,
+  ConfirmButton,
+  CancelButton,
+} from './styles';
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
   const [visibleOption, setVisibleOption] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleAlert, setVisibleAlert] = useState(false);
 
   const modalContentRef = useRef();
+  const alertContentRef = useRef();
+
+  async function loadProblems() {
+    const response = await api.get('/delivery/problems');
+    setProblems(response.data);
+  }
 
   useEffect(() => {
-    async function loadRecepients() {
-      const response = await api.get('/delivery/problems');
-
-      setProblems(response.data);
-    }
-
-    loadRecepients();
+    loadProblems();
   }, [problems]);
 
   const handleOutsideModalClick = e => {
     if (modalContentRef.current.contains(e.target)) {
       return;
     }
+    if (alertContentRef.current.contains(e.target)) {
+      return;
+    }
     if (visibleModal) {
       setVisibleModal(!visibleModal);
+    }
+    if (visibleAlert) {
+      setVisibleAlert(!visibleAlert);
     }
   };
 
@@ -44,8 +60,24 @@ export default function Problems() {
     setVisibleOption(!visibleOption);
   }
 
+  function handleToggleVisibleAlert() {
+    setVisibleAlert(!visibleAlert);
+  }
+
   function handleToggleVisibleModal() {
     setVisibleModal(!visibleModal);
+  }
+
+  async function cancelOrder(id) {
+    try {
+      await api.delete(`/delivery/${id}/cancel-delivery`);
+      toast.success(`A encomenda ${formattedId(id)} foi cancelada com sucesso`);
+      loadProblems();
+      handleToggleVisibleAlert();
+    } catch (err) {
+      toast.error(`Não foi possível cancelar a encomenda ${formattedId(id)}`);
+      handleToggleVisibleAlert();
+    }
   }
 
   return (
@@ -82,7 +114,32 @@ export default function Problems() {
                   </li>
                   <li>
                     <MdDeleteForever size={14} color="#DE3B3B" />
-                    <Link to="/">Cancelar encomenda</Link>
+                    <button type="button" onClick={handleToggleVisibleAlert}>
+                      Cancelar encomenda
+                    </button>
+                    <CancellationAlert visible={visibleAlert}>
+                      <CancellationAlertContent ref={alertContentRef}>
+                        <h3>Atenção!!!</h3>
+                        <p>
+                          Você realmente deseja cancelar a encomenda{' '}
+                          <strong>{formattedId(problem.delivery.id)}</strong>?
+                        </p>
+                        <p>
+                          <strong>Produto: </strong>
+                          {problem.delivery.product}
+                        </p>
+                        <div>
+                          <ConfirmButton
+                            onClick={() => cancelOrder(problem.delivery.id)}
+                          >
+                            Sim
+                          </ConfirmButton>
+                          <CancelButton onClick={handleToggleVisibleAlert}>
+                            Não
+                          </CancelButton>
+                        </div>
+                      </CancellationAlertContent>
+                    </CancellationAlert>
                   </li>
                 </ul>
               </OptionsList>
