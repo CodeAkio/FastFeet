@@ -82,42 +82,6 @@ export default function Order() {
             </td>
           </tr>
         ))}
-        <tr>
-          <td>#01</td>
-          <td>Ludwig van Beethoven</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#02</td>
-          <td>Wolfgang Amadeus</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#03</td>
-          <td>Johann Sebastian Bach</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#04</td>
-          <td>Frédéric Chopin</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#05</td>
-          <td>Piotr Ilitch Tchaikovski</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>#06</td>
-          <td>Antonio Vivaldi</td>
-          <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-          <td>...</td>
-        </tr>
       </table>
     </Container>
   );
