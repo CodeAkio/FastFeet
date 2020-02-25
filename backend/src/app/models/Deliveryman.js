@@ -10,6 +10,8 @@ class Deliveryman extends Model {
       {
         sequelize,
         tableName: 'deliverymen',
+        paranoid: true,
+        deletedAt: 'deleted_at',
       }
     );
 

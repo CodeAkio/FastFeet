@@ -22,6 +22,8 @@ class Order extends Model {
       },
       {
         sequelize,
+        paranoid: true,
+        deletedAt: 'deleted_at',
       }
     );
 

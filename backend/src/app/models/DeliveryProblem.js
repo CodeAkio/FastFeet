@@ -9,6 +9,8 @@ class DeliveryProblem extends Model {
       {
         sequelize,
         tableName: 'delivery_problems',
+        paranoid: true,
+        deletedAt: 'deleted_at',
       }
     );
 
