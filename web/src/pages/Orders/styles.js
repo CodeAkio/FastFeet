@@ -1,9 +1,48 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 1200px;
   margin: 36px auto;
+
+  table {
+    td {
+      div {
+        display: flex;
+        align-items: center;
+        img {
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+        }
+        span {
+          margin-left: 10px;
+        }
+      }
+    }
+    td:first-child {
+      width: auto;
+    }
+    td:nth-child(2) {
+      width: auto;
+    }
+    td:nth-child(3) {
+      width: auto;
+    }
+    td:nth-child(4) {
+      width: auto;
+    }
+    td:nth-child(5) {
+      width: auto;
+    }
+    td:nth-child(6) {
+      width: auto;
+    }
+    td:last-child {
+      text-align: center;
+      width: 5%;
+    }
+  }
 
   form {
     input {
@@ -56,6 +95,61 @@ export const Container = styled.div`
   }
 `;
 
+const handleColorStatus = status => {
+  switch (status) {
+    case 'pendente':
+      return css`
+        & {
+          background: #f0f0df;
+          > span {
+            color: #c1bc35;
+          }
+        }
+        &::before {
+          background: #c1bc35;
+        }
+      `;
+    case 'retirada':
+      return css`
+        & {
+          background: #bad2ff;
+          > span {
+            color: #4d85ee;
+          }
+        }
+        &::before {
+          background: #4d85ee;
+        }
+      `;
+    case 'entregue':
+      return css`
+        & {
+          background: #dff0df;
+          > span {
+            color: #2ca42b;
+          }
+        }
+        &::before {
+          background: #2ca42b;
+        }
+      `;
+    case 'cancelado':
+      return css`
+        & {
+          background: #fab0b0;
+          > span {
+            color: #de3b3b;
+          }
+        }
+        &::before {
+          background: #de3b3b;
+        }
+      `;
+    default:
+      return 'background: none;';
+  }
+};
+
 export const HeaderDiv = styled.div`
   width: 100%;
   display: inline-block;
@@ -92,5 +186,22 @@ export const HeaderDiv = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+`;
+
+export const Status = styled.div`
+  padding: 4px 8px;
+  border-radius: 50px;
+  ${({ status }) => handleColorStatus(status)}
+  span {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+  &::before {
+    content: '';
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
   }
 `;
