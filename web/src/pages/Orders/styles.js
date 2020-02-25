@@ -190,8 +190,12 @@ export const HeaderDiv = styled.div`
 `;
 
 export const Status = styled.div`
+  display: flex;
   padding: 4px 8px;
   border-radius: 50px;
+  max-width: 7.6em;
+  align-items: center;
+  justify-content: center;
   ${({ status }) => handleColorStatus(status)}
   span {
     font-weight: bold;
