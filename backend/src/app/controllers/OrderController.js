@@ -13,7 +13,14 @@ class OrderController {
     const { page = 1, q: query } = req.query;
 
     const orders = await Order.findAll({
-      attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
+      attributes: [
+        'id',
+        'product',
+        'status',
+        'canceled_at',
+        'start_date',
+        'end_date',
+      ],
       limit: 20,
       offset: (page - 1) * 20,
       include: [

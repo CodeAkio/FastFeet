@@ -5,6 +5,17 @@ class Order extends Model {
     super.init(
       {
         product: Sequelize.STRING,
+        status: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            if (this.start_date) {
+              if (this.canceled_at) return 'cancelado';
+              if (this.end_date) return 'entregue';
+              return 'retirada';
+            }
+            return 'pendente';
+          },
+        },
         canceled_at: Sequelize.DATE,
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
