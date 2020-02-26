@@ -76,6 +76,7 @@ export const Container = styled.div`
 `;
 
 export const OptionsList = styled.div`
+  z-index: 1;
   position: absolute;
   width: 200px;
   left: calc(50% - 100px);
@@ -143,6 +144,7 @@ export const Modal = styled.div`
 `;
 
 export const ModalContent = styled.div`
+  z-index: 1;
   background-color: #fff;
   margin: auto;
   padding: 25px;
