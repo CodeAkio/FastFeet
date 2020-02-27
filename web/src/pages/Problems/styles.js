@@ -23,56 +23,6 @@ export const Container = styled.div`
       }
     }
   }
-
-  form {
-    input {
-      height: 36px;
-      padding: 0 15px;
-      color: #999;
-      margin: 0 0 10px;
-      &::placeholder {
-        color: #999;
-      }
-    }
-    > button {
-      margin: 5px 0 0;
-      height: 44px;
-      background: #3b9eff;
-      font-weight: bold;
-      color: #fff;
-      border: 0;
-      border-radius: 4px;
-      font-size: 16px;
-      transition: background 0.2s;
-      &:hover {
-        background: ${darken(0.03, '#3b9eff')};
-      }
-    }
-    a {
-      color: #fff;
-      margin-top: 15px;
-      font-size: 16px;
-      opacity: 0.8;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-  > button {
-    width: 100%;
-    margin: 10px 0 0;
-    height: 44px;
-    background: #f64c75;
-    font-weight: bold;
-    color: #fff;
-    border: 0;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.2s;
-    &:hover {
-      background: ${darken(0.08, '#f64c75')};
-    }
-  }
 `;
 
 export const OptionsList = styled.div`
@@ -128,37 +78,6 @@ export const OptionsList = styled.div`
   }
   ul li + li {
     border-top: 1px solid #eee;
-  }
-`;
-
-export const Modal = styled.div`
-  display: ${props => (props.visible ? 'flex' : 'none')};
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-`;
-
-export const ModalContent = styled.div`
-  z-index: 1;
-  background-color: #fff;
-  margin: auto;
-  padding: 25px;
-  border: 1px solid #00000033;
-  border-radius: 4px;
-  width: 450px;
-  h4 {
-    font-size: 14px;
-    color: #444;
-  }
-  p {
-    font-size: 16px;
-    color: #666;
-    margin-top: 4px;
   }
 `;
 

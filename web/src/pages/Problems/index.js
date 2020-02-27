@@ -7,13 +7,12 @@ import formattedId from '~/utils/formattedId';
 import {
   Container,
   OptionsList,
-  Modal,
-  ModalContent,
   CancellationAlert,
   CancellationAlertContent,
   ConfirmButton,
   CancelButton,
 } from './styles';
+import Modal from '~/components/Modal';
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
@@ -28,10 +27,7 @@ export default function Problems() {
         ...p,
         visibleOptions: false,
         visibleAlert: false,
-        modal: {
-          open: false,
-          blur: false,
-        },
+        modalOpen: false,
       }));
 
       setProblems(data);
@@ -66,43 +62,7 @@ export default function Problems() {
     setProblems(
       problems.map(p => {
         if (p.id === id) {
-          return { ...p, modal: { ...p.modal, open: !p.modal.open } };
-        }
-        return { ...p };
-      })
-    );
-  }
-
-  function handleToggleFocusModal(id) {
-    setProblems(
-      problems.map(p => {
-        if (p.id === id) {
-          return { ...p, modal: { ...p.modal, blur: false } };
-        }
-        return { ...p };
-      })
-    );
-  }
-
-  function handleToggleBlurModal(id) {
-    setProblems(
-      problems.map(p => {
-        if (p.id === id) {
-          return { ...p, modal: { ...p.modal, blur: true } };
-        }
-        return { ...p };
-      })
-    );
-  }
-
-  function handleToggleClickOutModal(id) {
-    setProblems(
-      problems.map(p => {
-        if (p.id === id && p.modal.open && p.modal.blur) {
-          return {
-            ...p,
-            modal: { ...p.modal, open: false, blur: false },
-          };
+          return { ...p, modalOpen: !p.modalOpen };
         }
         return { ...p };
       })
@@ -151,17 +111,9 @@ export default function Problems() {
                     >
                       Visualizar
                     </button>
-                    <Modal
-                      visible={problem.modal.open}
-                      onClick={() => handleToggleClickOutModal(problem.id)}
-                    >
-                      <ModalContent
-                        onMouseEnter={() => handleToggleFocusModal(problem.id)}
-                        onMouseLeave={() => handleToggleBlurModal(problem.id)}
-                      >
-                        <h4>VISUALIZAR PROBLEMA</h4>
-                        <p>{problem.description}</p>
-                      </ModalContent>
+                    <Modal visible={problem.modalOpen}>
+                      <h4>VISUALIZAR PROBLEMA</h4>
+                      <p>{problem.description}</p>
                     </Modal>
                   </li>
                   <li>
