@@ -73,10 +73,10 @@ export default function Problems() {
     try {
       await api.delete(`/delivery/${id}/cancel-delivery`);
       toast.success(`A encomenda ${formattedId(id)} foi cancelada com sucesso`);
-      handleToggleVisibleAlert();
+      handleToggleVisibleAlert(id);
     } catch (err) {
       toast.error(`Não foi possível cancelar a encomenda ${formattedId(id)}`);
-      handleToggleVisibleAlert();
+      handleToggleVisibleAlert(id);
     }
   }
 
