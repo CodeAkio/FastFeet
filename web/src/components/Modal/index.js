@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import { Container, ModalContent } from './styles';
 
-export default function Modal({ visible, children }) {
+export default function Modal({ visible, children, handler, handlerParam }) {
   const [open, setOpen] = useState(false);
   const [blur, setBlur] = useState(false);
 
   useEffect(() => {
-    if (open !== visible) {
-      setOpen(!open);
+    if (!open && visible) {
+      setOpen(true);
     }
   }, [visible]);
 
@@ -26,6 +26,7 @@ export default function Modal({ visible, children }) {
     if (open && blur) {
       setOpen(false);
       setBlur(false);
+      handler(handlerParam);
     }
   }
 
@@ -44,4 +45,6 @@ export default function Modal({ visible, children }) {
 Modal.propTypes = {
   visible: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
+  handler: PropTypes.func.isRequired,
+  handlerParam: PropTypes.number.isRequired,
 };

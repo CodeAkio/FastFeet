@@ -6,13 +6,13 @@ import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
 import {
   Container,
-  OptionsList,
   CancellationAlert,
   CancellationAlertContent,
   ConfirmButton,
   CancelButton,
 } from './styles';
 import Modal from '~/components/Modal';
+import OptionsList from '~/components/OptionsList';
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
@@ -25,7 +25,7 @@ export default function Problems() {
 
       const data = response.data.map(p => ({
         ...p,
-        visibleOptions: false,
+        optionsOpen: false,
         visibleAlert: false,
         modalOpen: false,
       }));
@@ -40,7 +40,7 @@ export default function Problems() {
     setProblems(
       problems.map(p => {
         if (p.id === id) {
-          return { ...p, visibleOptions: !p.visibleOptions };
+          return { ...p, optionsOpen: !p.optionsOpen };
         }
         return { ...p };
       })
@@ -101,56 +101,58 @@ export default function Problems() {
               >
                 <MdMoreHoriz size={24} color="#C6C6C6" />
               </button>
-              <OptionsList visible={problem.visibleOptions}>
-                <ul>
-                  <li>
-                    <MdVisibility size={14} color="#8E5BE8" />
-                    <button
-                      type="button"
-                      onClick={() => handleToggleOpenModal(problem.id)}
-                    >
-                      Visualizar
-                    </button>
-                    <Modal visible={problem.modalOpen}>
-                      <h4>VISUALIZAR PROBLEMA</h4>
-                      <p>{problem.description}</p>
-                    </Modal>
-                  </li>
-                  <li>
-                    <MdDeleteForever size={14} color="#DE3B3B" />
-                    <button
-                      type="button"
-                      onClick={() => handleToggleVisibleAlert(problem.id)}
-                    >
-                      Cancelar encomenda
-                    </button>
-                    <CancellationAlert visible={problem.visibleAlert}>
-                      <CancellationAlertContent ref={alertContentRef}>
-                        <h3>Atenção!!!</h3>
-                        <p>
-                          Você realmente deseja cancelar a encomenda{' '}
-                          <strong>{formattedId(problem.delivery.id)}</strong>?
-                        </p>
-                        <p>
-                          <strong>Produto: </strong>
-                          {problem.delivery.product}
-                        </p>
-                        <div>
-                          <ConfirmButton
-                            onClick={() => cancelOrder(problem.delivery.id)}
-                          >
-                            Sim
-                          </ConfirmButton>
-                          <CancelButton
-                            onClick={() => handleToggleVisibleAlert(problem.id)}
-                          >
-                            Não
-                          </CancelButton>
-                        </div>
-                      </CancellationAlertContent>
-                    </CancellationAlert>
-                  </li>
-                </ul>
+              <OptionsList visible={problem.optionsOpen}>
+                <li>
+                  <MdVisibility size={14} color="#8E5BE8" />
+                  <button
+                    type="button"
+                    onClick={() => handleToggleOpenModal(problem.id)}
+                  >
+                    Visualizar
+                  </button>
+                  <Modal
+                    visible={problem.modalOpen}
+                    handler={handleToggleOpenModal}
+                    handlerParam={problem.id}
+                  >
+                    <h4>VISUALIZAR PROBLEMA</h4>
+                    <p>{problem.description}</p>
+                  </Modal>
+                </li>
+                <li>
+                  <MdDeleteForever size={14} color="#DE3B3B" />
+                  <button
+                    type="button"
+                    onClick={() => handleToggleVisibleAlert(problem.id)}
+                  >
+                    Cancelar encomenda
+                  </button>
+                  <CancellationAlert visible={problem.visibleAlert}>
+                    <CancellationAlertContent ref={alertContentRef}>
+                      <h3>Atenção!!!</h3>
+                      <p>
+                        Você realmente deseja cancelar a encomenda{' '}
+                        <strong>{formattedId(problem.delivery.id)}</strong>?
+                      </p>
+                      <p>
+                        <strong>Produto: </strong>
+                        {problem.delivery.product}
+                      </p>
+                      <div>
+                        <ConfirmButton
+                          onClick={() => cancelOrder(problem.delivery.id)}
+                        >
+                          Sim
+                        </ConfirmButton>
+                        <CancelButton
+                          onClick={() => handleToggleVisibleAlert(problem.id)}
+                        >
+                          Não
+                        </CancelButton>
+                      </div>
+                    </CancellationAlertContent>
+                  </CancellationAlert>
+                </li>
               </OptionsList>
             </td>
           </tr>
