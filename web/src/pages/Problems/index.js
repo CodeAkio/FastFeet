@@ -17,66 +17,28 @@ import {
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
-  // const [visibleOptions, setVisibleOptions] = useState(false);
-  const [visibleModal, setVisibleModal] = useState(false);
-  const [visibleAlert, setVisibleAlert] = useState(false);
 
-  const modalContentRef = useRef();
-  const alertContentRef = useRef();
-
-  async function loadProblems() {
-    const response = await api.get('/delivery/problems');
-    setProblems(
-      response.data.map(p => {
-        return {
-          ...p,
-          // visibleModal: false,
-          visibleOptions: false,
-          // visibleAlert: false,
-        };
-      })
-    );
-    setProblems(response.data);
-  }
+  const alertContentRef = useRef(null);
 
   useEffect(() => {
+    async function loadProblems() {
+      const response = await api.get('/delivery/problems');
+
+      const data = response.data.map(p => ({
+        ...p,
+        visibleOptions: false,
+        visibleAlert: false,
+        modal: {
+          open: false,
+          blur: false,
+        },
+      }));
+
+      setProblems(data);
+    }
+
     loadProblems();
   }, []);
-
-  const handleOutsideModalClick = e => {
-    if (modalContentRef.current.contains(e.target)) {
-      return;
-    }
-    if (alertContentRef.current.contains(e.target)) {
-      return;
-    }
-    if (visibleModal) {
-      setVisibleModal(!visibleModal);
-    }
-    if (visibleAlert) {
-      setVisibleAlert(!visibleAlert);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideModalClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideModalClick);
-    };
-  });
-
-  // function handleToggleVisibleOptions() {
-  //   setVisibleOptions(!visibleOptions);
-  // }
-
-  // function handleToggleVisibleAlert() {
-  //   setVisibleAlert(!visibleAlert);
-  // }
-
-  // function handleToggleVisibleModal() {
-  //   setVisibleModal(!visibleModal);
-  // }
 
   function handleToggleVisibleOptions(id) {
     setProblems(
@@ -100,56 +62,57 @@ export default function Problems() {
     );
   }
 
-  function handleToggleVisibleModal(id) {
+  function handleToggleOpenModal(id) {
     setProblems(
       problems.map(p => {
         if (p.id === id) {
-          return { ...p, visibleModal: !p.visibleModal };
+          return { ...p, modal: { ...p.modal, open: !p.modal.open } };
         }
         return { ...p };
       })
     );
   }
 
-  // const handleOutsideModalClick = e => {
-  //   const openModal = problems.find(p => p.visibleModal === true);
-  //   const openAlert = problems.find(p => p.visibleAlert === true);
+  function handleToggleFocusModal(id) {
+    setProblems(
+      problems.map(p => {
+        if (p.id === id) {
+          return { ...p, modal: { ...p.modal, blur: false } };
+        }
+        return { ...p };
+      })
+    );
+  }
 
-  //   if (
-  //     modalContentRef.current &&
-  //     !modalContentRef.current.contains(e.target)
-  //   ) {
-  //     console.tron.log(openModal);
-  //     return;
-  //   }
-  //   if (alertContentRef.current.contains(e.target)) {
-  //     return;
-  //   }
+  function handleToggleBlurModal(id) {
+    setProblems(
+      problems.map(p => {
+        if (p.id === id) {
+          return { ...p, modal: { ...p.modal, blur: true } };
+        }
+        return { ...p };
+      })
+    );
+  }
 
-  //   if (openModal) {
-  //     // console.tron.log(openModal);
-  //     // handleToggleVisibleModal(openModal.id);
-  //   }
-
-  //   if (openAlert) {
-  //     console.tron.log(openAlert);
-  //     // handleToggleVisibleAlert(openAlert.id);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleOutsideModalClick);
-
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleOutsideModalClick);
-  //   };
-  // });
+  function handleToggleClickOutModal(id) {
+    setProblems(
+      problems.map(p => {
+        if (p.id === id && p.modal.open && p.modal.blur) {
+          return {
+            ...p,
+            modal: { ...p.modal, open: false, blur: false },
+          };
+        }
+        return { ...p };
+      })
+    );
+  }
 
   async function cancelOrder(id) {
     try {
       await api.delete(`/delivery/${id}/cancel-delivery`);
       toast.success(`A encomenda ${formattedId(id)} foi cancelada com sucesso`);
-      loadProblems();
       handleToggleVisibleAlert();
     } catch (err) {
       toast.error(`Não foi possível cancelar a encomenda ${formattedId(id)}`);
@@ -184,12 +147,18 @@ export default function Problems() {
                     <MdVisibility size={14} color="#8E5BE8" />
                     <button
                       type="button"
-                      onClick={() => handleToggleVisibleModal(problem.id)}
+                      onClick={() => handleToggleOpenModal(problem.id)}
                     >
                       Visualizar
                     </button>
-                    <Modal visible={problem.visibleModal}>
-                      <ModalContent ref={modalContentRef}>
+                    <Modal
+                      visible={problem.modal.open}
+                      onClick={() => handleToggleClickOutModal(problem.id)}
+                    >
+                      <ModalContent
+                        onMouseEnter={() => handleToggleFocusModal(problem.id)}
+                        onMouseLeave={() => handleToggleBlurModal(problem.id)}
+                      >
                         <h4>VISUALIZAR PROBLEMA</h4>
                         <p>{problem.description}</p>
                       </ModalContent>
