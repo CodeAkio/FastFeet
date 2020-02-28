@@ -18,12 +18,29 @@ export default function Alert({
   handlerConfirmParam,
 }) {
   const [open, setOpen] = useState(false);
+  const [blur, setBlur] = useState(false);
 
   useEffect(() => {
     if (!open && visible) {
       setOpen(true);
     }
   }, [visible]);
+
+  function handleToggleFocusAlert() {
+    setBlur(false);
+  }
+
+  function handleToggleBlurAlert() {
+    setBlur(true);
+  }
+
+  function handleToggleClickOutAlert() {
+    if (open && blur) {
+      setOpen(false);
+      setBlur(false);
+      handler(handlerParam);
+    }
+  }
 
   function close() {
     if (open && visible) {
@@ -41,8 +58,14 @@ export default function Alert({
   }
 
   return (
-    <CancellationAlert visible={open}>
-      <CancellationAlertContent>
+    <CancellationAlert
+      visible={open}
+      onClick={() => handleToggleClickOutAlert()}
+    >
+      <CancellationAlertContent
+        onMouseEnter={() => handleToggleFocusAlert()}
+        onMouseLeave={() => handleToggleBlurAlert()}
+      >
         <h3>Atenção!!!</h3>
         {children}
         <div>
