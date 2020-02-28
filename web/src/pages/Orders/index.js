@@ -3,7 +3,7 @@ import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
-import { Container, HeaderDiv, Status } from './styles';
+import { Container, HeaderDiv, Status, DeliverymanData } from './styles';
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
@@ -59,7 +59,7 @@ export default function Order() {
             <td>{formattedId(order.id)}</td>
             <td>{order.recipient.name}</td>
             <td>
-              <div>
+              <DeliverymanData>
                 <img
                   src={
                     order.deliveryman.avatar.url ||
@@ -68,7 +68,7 @@ export default function Order() {
                   alt={order.deliveryman.name}
                 />
                 <span>{order.deliveryman.name}</span>
-              </div>
+              </DeliverymanData>
             </td>
             <td>{order.recipient.city}</td>
             <td>{order.recipient.state}</td>
