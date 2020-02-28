@@ -139,6 +139,7 @@ export const Status = styled.div`
   justify-content: center;
   ${({ status }) => handleColorStatus(status)}
   span {
+    padding-left: 8px;
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
