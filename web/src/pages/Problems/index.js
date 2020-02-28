@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdMoreHoriz, MdVisibility, MdDeleteForever } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -16,8 +16,6 @@ import OptionsList from '~/components/OptionsList';
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
-
-  const alertContentRef = useRef(null);
 
   useEffect(() => {
     async function loadProblems() {
@@ -128,7 +126,7 @@ export default function Problems() {
                     Cancelar encomenda
                   </button>
                   <CancellationAlert visible={problem.visibleAlert}>
-                    <CancellationAlertContent ref={alertContentRef}>
+                    <CancellationAlertContent>
                       <h3>Atenção!!!</h3>
                       <p>
                         Você realmente deseja cancelar a encomenda{' '}
