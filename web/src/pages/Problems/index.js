@@ -4,15 +4,10 @@ import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
-import {
-  Container,
-  CancellationAlert,
-  CancellationAlertContent,
-  ConfirmButton,
-  CancelButton,
-} from './styles';
+import { Container } from './styles';
 import Modal from '~/components/Modal';
 import OptionsList from '~/components/OptionsList';
+import Alert from '~/components/Alert';
 
 export default function Problems() {
   const [problems, setProblems] = useState([]);
@@ -24,7 +19,7 @@ export default function Problems() {
       const data = response.data.map(p => ({
         ...p,
         optionsOpen: false,
-        visibleAlert: false,
+        alertOpen: false,
         modalOpen: false,
       }));
 
@@ -49,7 +44,7 @@ export default function Problems() {
     setProblems(
       problems.map(p => {
         if (p.id === id) {
-          return { ...p, visibleAlert: !p.visibleAlert };
+          return { ...p, alertOpen: !p.alertOpen };
         }
         return { ...p };
       })
@@ -71,10 +66,8 @@ export default function Problems() {
     try {
       await api.delete(`/delivery/${id}/cancel-delivery`);
       toast.success(`A encomenda ${formattedId(id)} foi cancelada com sucesso`);
-      handleToggleVisibleAlert(id);
     } catch (err) {
       toast.error(`Não foi possível cancelar a encomenda ${formattedId(id)}`);
-      handleToggleVisibleAlert(id);
     }
   }
 
@@ -125,31 +118,22 @@ export default function Problems() {
                   >
                     Cancelar encomenda
                   </button>
-                  <CancellationAlert visible={problem.visibleAlert}>
-                    <CancellationAlertContent>
-                      <h3>Atenção!!!</h3>
-                      <p>
-                        Você realmente deseja cancelar a encomenda{' '}
-                        <strong>{formattedId(problem.delivery.id)}</strong>?
-                      </p>
-                      <p>
-                        <strong>Produto: </strong>
-                        {problem.delivery.product}
-                      </p>
-                      <div>
-                        <ConfirmButton
-                          onClick={() => cancelOrder(problem.delivery.id)}
-                        >
-                          Sim
-                        </ConfirmButton>
-                        <CancelButton
-                          onClick={() => handleToggleVisibleAlert(problem.id)}
-                        >
-                          Não
-                        </CancelButton>
-                      </div>
-                    </CancellationAlertContent>
-                  </CancellationAlert>
+                  <Alert
+                    visible={problem.alertOpen}
+                    handler={handleToggleVisibleAlert}
+                    handlerParam={problem.id}
+                    handlerConfirm={cancelOrder}
+                    handlerConfirmParam={problem.delivery.id}
+                  >
+                    <p>
+                      Você realmente deseja cancelar a encomenda{' '}
+                      <strong>{formattedId(problem.delivery.id)}</strong>?
+                    </p>
+                    <p>
+                      <strong>Produto: </strong>
+                      {problem.delivery.product}
+                    </p>
+                  </Alert>
                 </li>
               </OptionsList>
             </td>
