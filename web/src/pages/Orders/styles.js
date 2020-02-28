@@ -5,20 +5,6 @@ export const Container = styled.div`
   margin: 36px auto;
 
   table {
-    td {
-      div {
-        display: flex;
-        align-items: center;
-        img {
-          width: 35px;
-          height: 35px;
-          border-radius: 50%;
-        }
-        span {
-          margin-left: 10px;
-        }
-      }
-    }
     td:first-child {
       width: auto;
     }
@@ -38,8 +24,14 @@ export const Container = styled.div`
       width: auto;
     }
     td:last-child {
+      position: relative;
       text-align: center;
       width: 5%;
+      > button {
+        border: 0;
+        background: none;
+        position: relative;
+      }
     }
   }
 `;
