@@ -164,3 +164,14 @@ export const DeliverymanData = styled.div`
     margin-left: 10px;
   }
 `;
+
+export const Signature = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > img {
+    max-width: 400px;
+    height: auto;
+    margin: 12px 0px;
+  }
+`;
