@@ -5,6 +5,8 @@ import {
   MdVisibility,
   MdDeleteForever,
 } from 'react-icons/md';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
@@ -173,10 +175,20 @@ export default function Order() {
                     <hr />
                     <h4>Datas</h4>
                     <p>
-                      <strong>Retirada:</strong>
+                      <strong>Retirada:</strong>{' '}
+                      {order.start_date ? (
+                        format(parseISO(order.start_date), 'dd/MM/yyyy')
+                      ) : (
+                        <>--/--/----</>
+                      )}
                     </p>
                     <p>
-                      <strong>Entrega:</strong>
+                      <strong>Entrega:</strong>{' '}
+                      {order.end_date ? (
+                        format(parseISO(order.end_date), 'dd/MM/yyyy')
+                      ) : (
+                        <>--/--/----</>
+                      )}
                     </p>
                     <hr />
                     <h4>Assinatura do destinatário</h4>
