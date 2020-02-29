@@ -20,13 +20,17 @@ export const ModalContent = styled.div`
   border: 1px solid #00000033;
   border-radius: 4px;
   width: 450px;
-  h4 {
+  > h4 {
     font-size: 14px;
     color: #444;
   }
-  p {
+  > p {
     font-size: 16px;
     color: #666;
     margin-top: 4px;
+  }
+  > hr {
+    margin: 8px 0px;
+    border: 1px solid #eee;
   }
 `;
