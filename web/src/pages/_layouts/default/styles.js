@@ -35,22 +35,4 @@ export const Wrapper = styled.div`
       border-bottom-right-radius: 4px;
     }
   }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-
-    input {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    span {
-      color: #fb6f91;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
-    }
-  }
 `;
