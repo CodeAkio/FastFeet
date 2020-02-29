@@ -1,27 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { MdAdd, MdMoreHoriz } from 'react-icons/md';
+import { MdAdd, MdMoreHoriz, MdDeleteForever } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
-import { Container, HeaderDiv } from './styles';
+import { Container, HeaderDiv, Avatar } from './styles';
+import OptionsList from '~/components/OptionsList';
+import Alert from '~/components/Alert';
 
 export default function Deliverymen() {
   const [deliverymen, setDeliverymen] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    async function loadRecepients() {
+    async function loadDeliverymen() {
       const response = await api.get('/deliverymen', {
         params: {
           q: search,
         },
       });
 
-      setDeliverymen(response.data);
+      const data = response.data.map(d => ({
+        ...d,
+        optionsOpen: false,
+        alertOpen: false,
+      }));
+
+      setDeliverymen(data);
     }
 
-    loadRecepients();
-  }, [deliverymen, search]);
+    loadDeliverymen();
+  }, [search]);
+
+  function handleToggleVisibleOptions(id) {
+    setDeliverymen(
+      deliverymen.map(d => {
+        if (d.id === id) {
+          return { ...d, optionsOpen: !d.optionsOpen };
+        }
+        return { ...d };
+      })
+    );
+  }
+
+  function handleToggleVisibleAlert(id) {
+    setDeliverymen(
+      deliverymen.map(d => {
+        if (d.id === id) {
+          return { ...d, alertOpen: !d.alertOpen };
+        }
+        return { ...d };
+      })
+    );
+  }
+
+  async function deleteDeliveryman(id) {
+    try {
+      await api.delete(`/deliverymen/${id}`);
+      toast.success(`O entregador ${formattedId(id)} foi removido com sucesso`);
+    } catch (err) {
+      toast.error(`Não foi possível remover o entregador ${formattedId(id)}`);
+    }
+  }
 
   return (
     <Container>
@@ -53,10 +93,10 @@ export default function Deliverymen() {
           <th>Ações</th>
         </tr>
         {deliverymen.map(deliveryman => (
-          <tr>
+          <tr key={deliveryman.id}>
             <td>{formattedId(deliveryman.id)}</td>
             <td>
-              <img
+              <Avatar
                 src={
                   deliveryman.avatar.url ||
                   'https://api.adorable.io/avatars/35/abott@adorable.png'
@@ -67,7 +107,38 @@ export default function Deliverymen() {
             <td>{deliveryman.name}</td>
             <td>{deliveryman.email}</td>
             <td>
-              <MdMoreHoriz size={24} color="#C6C6C6" />
+              <button
+                type="button"
+                onClick={() => handleToggleVisibleOptions(deliveryman.id)}
+              >
+                <MdMoreHoriz size={24} color="#C6C6C6" />
+              </button>
+              <OptionsList visible={deliveryman.optionsOpen}>
+                <li>
+                  <MdDeleteForever size={14} color="#DE3B3B" />
+                  <button
+                    type="button"
+                    onClick={() => handleToggleVisibleAlert(deliveryman.id)}
+                  >
+                    Excluir
+                  </button>
+                  <Alert
+                    visible={deliveryman.alertOpen}
+                    handler={handleToggleVisibleAlert}
+                    handlerParam={deliveryman.id}
+                    handlerConfirm={deleteDeliveryman}
+                    handlerConfirmParam={deliveryman.id}
+                  >
+                    <p>
+                      Você realmente deseja remover o entregador{' '}
+                      <strong>
+                        {deliveryman.name} ({formattedId(deliveryman.id)})
+                      </strong>
+                      ?
+                    </p>
+                  </Alert>
+                </li>
+              </OptionsList>
             </td>
           </tr>
         ))}
