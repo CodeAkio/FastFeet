@@ -51,17 +51,19 @@ export const HeaderDiv = styled.div`
     }
   }
 
-  > button {
-    float: right;
-    height: 36px;
-    background: #7d40e7;
-    border-radius: 4px;
-    padding: 8px 16px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  > a {
+    > button {
+      float: right;
+      height: 36px;
+      background: #7d40e7;
+      border-radius: 4px;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 `;
