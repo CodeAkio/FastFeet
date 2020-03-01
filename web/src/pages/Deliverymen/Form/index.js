@@ -47,7 +47,7 @@ export default function DeliverymanForm({ match, history }) {
     loadDeliveryman();
   }, [id]);
 
-  async function createRecipient(data) {
+  async function createDeliveryman(data) {
     try {
       await api.post('/deliverymen', data);
       toast.success('O entregador foi criado com sucesso');
@@ -57,7 +57,7 @@ export default function DeliverymanForm({ match, history }) {
     }
   }
 
-  async function editRecipient(data) {
+  async function editDeliveryman(data) {
     try {
       await api.put(`/deliverymen/${id}`, data);
       toast.success('O entregador foi editado com sucesso');
@@ -70,10 +70,10 @@ export default function DeliverymanForm({ match, history }) {
   function handleSubmit(data) {
     switch (formType) {
       case 'new':
-        createRecipient(data);
+        createDeliveryman(data);
         break;
       case 'edit':
-        editRecipient(data);
+        editDeliveryman(data);
         break;
       default:
         break;
