@@ -4,8 +4,10 @@ import {
   MdMoreHoriz,
   MdVisibility,
   MdDeleteForever,
+  MdModeEdit,
 } from 'react-icons/md';
 import { format, parseISO } from 'date-fns';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
@@ -104,9 +106,11 @@ export default function Order() {
           />
         </div>
 
-        <button type="button">
-          <MdAdd size={16} color="#fff" /> CADASTRAR
-        </button>
+        <Link to="/orders/new">
+          <button type="button">
+            <MdAdd size={16} color="#fff" /> CADASTRAR
+          </button>
+        </Link>
       </HeaderDiv>
 
       <table>
@@ -199,6 +203,10 @@ export default function Order() {
                       <p>Sem assinatura</p>
                     )}
                   </Modal>
+                </li>
+                <li>
+                  <MdModeEdit size={14} color="#4D85EE" />
+                  <Link to={`orders/${order.id}/edit`}>Editar</Link>
                 </li>
                 <li>
                   <MdDeleteForever size={14} color="#DE3B3B" />
