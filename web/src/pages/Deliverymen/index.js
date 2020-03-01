@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MdAdd, MdMoreHoriz, MdDeleteForever } from 'react-icons/md';
+import {
+  MdAdd,
+  MdMoreHoriz,
+  MdDeleteForever,
+  MdModeEdit,
+} from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
@@ -79,9 +85,11 @@ export default function Deliverymen() {
           />
         </div>
 
-        <button type="button">
-          <MdAdd size={16} color="#fff" /> CADASTRAR
-        </button>
+        <Link to="deliverymen/new">
+          <button type="button">
+            <MdAdd size={16} color="#fff" /> CADASTRAR
+          </button>
+        </Link>
       </HeaderDiv>
 
       <table>
@@ -114,6 +122,10 @@ export default function Deliverymen() {
                 <MdMoreHoriz size={24} color="#C6C6C6" />
               </button>
               <OptionsList visible={deliveryman.optionsOpen}>
+                <li>
+                  <MdModeEdit size={14} color="#4D85EE" />
+                  <Link to={`deliverymen/${deliveryman.id}/edit`}>Editar</Link>
+                </li>
                 <li>
                   <MdDeleteForever size={14} color="#DE3B3B" />
                   <button
