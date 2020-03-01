@@ -66,6 +66,62 @@ class OrderController {
     return res.json(orders);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const order = await Order.findByPk(id, {
+      attributes: [
+        'id',
+        'product',
+        'status',
+        'canceled_at',
+        'start_date',
+        'end_date',
+      ],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'id',
+            'name',
+            'street',
+            'number',
+            'complement',
+            'state',
+            'city',
+            'cep',
+          ],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['id', 'name', 'email'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
+
+    if (!order) {
+      return res.status(400).json({
+        message: 'Order not found!',
+      });
+    }
+
+    return res.json(order);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       recipient_id: Yup.number().required(),
