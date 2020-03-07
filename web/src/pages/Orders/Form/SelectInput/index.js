@@ -5,9 +5,8 @@ import AsyncSelect from 'react-select/async';
 
 import api from '~/services/api';
 
-export default function Select({ apiPath, initialValue }) {
+export default function Select({ apiPath, value, onChange }) {
   const [elements, setElements] = useState([]);
-  const [defaultValue, setDefaultValue] = useState([]);
 
   useEffect(() => {
     async function loadElements() {
@@ -22,12 +21,7 @@ export default function Select({ apiPath, initialValue }) {
     }
 
     loadElements();
-  }, []);
-
-  useEffect(() => {
-    const element = elements.find(e => e.value === initialValue);
-    setDefaultValue(element);
-  }, [initialValue, elements]);
+  }, [apiPath]);
 
   function filterElements(inputValue) {
     return elements.filter(e =>
@@ -45,13 +39,15 @@ export default function Select({ apiPath, initialValue }) {
       cacheOptions
       defaultOptions={elements}
       loadOptions={promiseElements}
-      defaultValue={defaultValue}
       options={elements}
+      value={value}
+      onChange={onChange}
     />
   );
 }
 
 Select.propTypes = {
   apiPath: PropTypes.string.isRequired,
-  initialValue: PropTypes.number.isRequired,
+  value: PropTypes.shape().isRequired,
+  onChange: PropTypes.func.isRequired,
 };
