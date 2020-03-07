@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
-import { Form, Input } from '@rocketseat/unform';
-// import * as Yup from 'yup';
+import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import Select from './SelectInput';
 
@@ -22,20 +21,25 @@ import {
   SelectContainer,
 } from './styles';
 
-// const schema = Yup.object().shape({
-//   product: Yup.string().required('O produto é obrigatório'),
-//   recipient_id: Yup.number('Deve informar um valor numérico')
-//     .typeError('Deve informar um valor numérico')
-//     .required('O destinatário é obrigatório'),
-//   deliveryman_id: Yup.number('Deve informar um valor numérico')
-//     .typeError('Deve informar um valor numérico')
-//     .required('O entregador é obrigatório'),
-// });
+const schema = Yup.object().shape({
+  product: Yup.string().required('O produto é obrigatório'),
+  recipient_id: Yup.number('Deve informar um valor numérico')
+    .typeError('Deve informar um valor numérico')
+    .required('O destinatário é obrigatório'),
+  deliveryman_id: Yup.number('Deve informar um valor numérico')
+    .typeError('Deve informar um valor numérico')
+    .required('O entregador é obrigatório'),
+});
 
 export default function OrderForm({ match, history }) {
-  const [order, setOrder] = useState(null);
+  const [productField, setProductField] = useState('');
+  const [productFieldError, setProductFieldError] = useState('');
+
   const [recipientField, setRecipientField] = useState({});
+  const [recipientFieldError, setRecipientFieldError] = useState('');
+
   const [deliverymanField, setDeliverymanField] = useState({});
+  const [deliverymanFieldError, setDeliverymanFieldError] = useState('');
 
   const { id } = match.params;
   const formType = id ? 'edit' : 'new';
@@ -43,11 +47,11 @@ export default function OrderForm({ match, history }) {
   useEffect(() => {
     async function loadOrder() {
       const response = await api.get(`/orders/${id}`);
-      setOrder(response.data);
 
-      const { recipient, deliveryman } = response.data;
+      const { product, recipient, deliveryman } = response.data;
       setRecipientField({ value: recipient.id, label: recipient.name });
       setDeliverymanField({ value: deliveryman.id, label: deliveryman.name });
+      setProductField(product);
     }
 
     loadOrder();
@@ -73,7 +77,49 @@ export default function OrderForm({ match, history }) {
     }
   }
 
-  function handleSubmit(data) {
+  function resetErrors() {
+    setRecipientFieldError(null);
+    setDeliverymanFieldError(null);
+    setProductFieldError(null);
+  }
+
+  async function validateFields(data) {
+    resetErrors();
+
+    let isValid = true;
+
+    await schema
+      .validate({
+        recipient_id: data.recipient_id,
+        deliveryman_id: data.deliveryman_id,
+        product: data.product,
+      })
+      .catch(err => {
+        switch (err.path) {
+          case 'recipient_id':
+            setRecipientFieldError(err.message);
+            isValid = false;
+            break;
+          case 'deliveryman_id':
+            setDeliverymanFieldError(err.message);
+            isValid = false;
+            break;
+          case 'product':
+            setProductFieldError(err.message);
+            isValid = false;
+            break;
+          default:
+            break;
+        }
+      });
+    return isValid;
+  }
+
+  async function handleSubmit(e, data) {
+    e.preventDefault();
+
+    if (!(await validateFields(data))) return;
+
     switch (formType) {
       case 'new':
         createOrder(data);
@@ -88,7 +134,7 @@ export default function OrderForm({ match, history }) {
 
   return (
     <Container>
-      <Form initialData={order} onSubmit={handleSubmit}>
+      <form>
         <HeaderDiv>
           <h1>{formType === 'new' ? 'Cadastro' : 'Edição'} de destinatário</h1>
           <RightContentHeaderDiv>
@@ -100,7 +146,15 @@ export default function OrderForm({ match, history }) {
                 VOLTAR
               </BackButton>
             </Link>
-            <SaveButton>
+            <SaveButton
+              onClick={e =>
+                handleSubmit(e, {
+                  product: productField,
+                  recipient_id: recipientField.value,
+                  deliveryman_id: deliverymanField.value,
+                })
+              }
+            >
               <IconContainer>
                 <MdCheck size={20} color="#fff" />
               </IconContainer>
@@ -116,6 +170,7 @@ export default function OrderForm({ match, history }) {
                 value={recipientField}
                 onChange={setRecipientField}
               />
+              <span>{recipientFieldError}</span>
             </SelectContainer>
             <SelectContainer size={411} rightSpace>
               <Select
@@ -123,16 +178,23 @@ export default function OrderForm({ match, history }) {
                 value={deliverymanField}
                 onChange={setDeliverymanField}
               />
+              <span>{deliverymanFieldError}</span>
             </SelectContainer>
           </RowFields>
           <RowFields>
             <FieldContainer>
               <label htmlFor="product">Nome do produto</label>
-              <Input name="product" type="text" />
+              <input
+                name="product"
+                type="text"
+                value={productField}
+                onChange={e => setProductField(e.target.value)}
+              />
+              <span>{productFieldError}</span>
             </FieldContainer>
           </RowFields>
         </FormContent>
-      </Form>
+      </form>
     </Container>
   );
 }
