@@ -1,8 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+
+import createRouter from './routes';
 
 // import { Container } from './styles';
 
 export default function src() {
-  return <View />;
+  const Routes = createRouter;
+
+  return <Routes />;
 }
