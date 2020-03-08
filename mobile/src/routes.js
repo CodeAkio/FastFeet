@@ -6,14 +6,20 @@ import SignIn from '~/pages/SignIn';
 import Deliveries from '~/pages/Deliveries';
 import Profile from '~/pages/Profile';
 
-export default createAppContainer(
-  createSwitchNavigator({
-    Sign: createSwitchNavigator({
-      SignIn,
-    }),
-    App: createBottomTabNavigator({
-      Deliveries,
-      Profile,
-    }),
-  })
-);
+export default (signedIn = false) =>
+  createAppContainer(
+    createSwitchNavigator(
+      {
+        Sign: createSwitchNavigator({
+          SignIn,
+        }),
+        App: createBottomTabNavigator({
+          Deliveries,
+          Profile,
+        }),
+      },
+      {
+        initialRouteName: signedIn ? 'App' : 'Sign',
+      }
+    )
+  );
