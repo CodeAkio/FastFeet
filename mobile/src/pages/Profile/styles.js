@@ -1,13 +1,9 @@
 import styled from 'styled-components/native';
 
+import GlobalContainer from '~/components/Container';
 import Button from '~/components/Button';
 
-export const SafeArea = styled.SafeAreaView`
-  flex: 1;
-`;
-
-export const Container = styled.View`
-  flex: 1;
+export const Container = styled(GlobalContainer)`
   justify-content: center;
   align-items: center;
   padding: 0 35px;

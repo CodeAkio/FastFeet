@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import formatDate from '~/utils/formatDate';
 import {
-  SafeArea,
   Container,
   Avatar,
   InfoSection,
@@ -31,28 +30,26 @@ export default function Profile() {
   }
 
   return (
-    <SafeArea>
-      <Container>
-        <Avatar source={{ uri: avatar }} />
-        <InfoSection>
-          <InfoGroup>
-            <Header>Nome completo</Header>
-            <TextInfo>{name}</TextInfo>
-          </InfoGroup>
-          <InfoGroup>
-            <Header>E-mail</Header>
-            <TextInfo>{email}</TextInfo>
-          </InfoGroup>
-          <InfoGroup>
-            <Header>Data de cadastro</Header>
-            <TextInfo>{formattedDate}</TextInfo>
-          </InfoGroup>
-          <LogoutButton loading={loading} onPress={handleLogout}>
-            Logout
-          </LogoutButton>
-        </InfoSection>
-      </Container>
-    </SafeArea>
+    <Container>
+      <Avatar source={{ uri: avatar }} />
+      <InfoSection>
+        <InfoGroup>
+          <Header>Nome completo</Header>
+          <TextInfo>{name}</TextInfo>
+        </InfoGroup>
+        <InfoGroup>
+          <Header>E-mail</Header>
+          <TextInfo>{email}</TextInfo>
+        </InfoGroup>
+        <InfoGroup>
+          <Header>Data de cadastro</Header>
+          <TextInfo>{formattedDate}</TextInfo>
+        </InfoGroup>
+        <LogoutButton loading={loading} onPress={handleLogout}>
+          Logout
+        </LogoutButton>
+      </InfoSection>
+    </Container>
   );
 }
 
