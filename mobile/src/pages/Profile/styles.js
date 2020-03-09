@@ -2,10 +2,15 @@ import styled from 'styled-components/native';
 
 import Button from '~/components/Button';
 
-export const Container = styled.SafeAreaView`
+export const SafeArea = styled.SafeAreaView`
+  flex: 1;
+`;
+
+export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 0 35px;
 `;
 
 export const Avatar = styled.Image`
@@ -17,7 +22,6 @@ export const Avatar = styled.Image`
 export const InfoSection = styled.View`
   align-self: stretch;
   margin-top: 40px;
-  padding: 0 35px;
 `;
 
 export const InfoGroup = styled.View`
