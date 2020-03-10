@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { BoxShadow } from '~/components/BoxShadow';
 
 export const Header = styled.View`
   margin-top: 20px;
@@ -68,18 +69,9 @@ export const DeliveriesList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
 })``;
 
-export const Delivery = styled.View.attrs({
-  shadowColor: '#0000001A',
-  shadowOffset: {
-    width: 0,
-    height: 0,
-  },
-  shadowRadius: 1.5,
-  shadowOpacity: 3.0,
-})`
-  background-color: #fff;
-  border-radius: 4px;
-  margin: 10px 2px 20px;
+export const Delivery = styled(BoxShadow)`
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 export const DeliveryHeader = styled.View`
