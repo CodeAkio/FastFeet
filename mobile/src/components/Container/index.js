@@ -6,7 +6,9 @@ import { SafeArea, Content } from './styles';
 export default function Container({ children, style, background }) {
   return (
     <SafeArea background={background}>
-      <Content style={style}>{children}</Content>
+      <Content style={style} background={background}>
+        {children}
+      </Content>
     </SafeArea>
   );
 }
