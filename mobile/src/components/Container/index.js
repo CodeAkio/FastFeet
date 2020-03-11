@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { SafeArea, Content } from './styles';
 
-export default function Container({ children, style }) {
+export default function Container({ children, style, background }) {
   return (
-    <SafeArea>
+    <SafeArea background={background}>
       <Content style={style}>{children}</Content>
     </SafeArea>
   );
@@ -17,8 +17,10 @@ Container.propTypes = {
     PropTypes.node,
   ]).isRequired,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  background: PropTypes.bool,
 };
 
 Container.defaultProps = {
   style: {},
+  background: false,
 };

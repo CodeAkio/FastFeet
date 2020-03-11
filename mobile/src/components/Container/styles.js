@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const SafeArea = styled.SafeAreaView`
   flex: 1;
-  background: #fff;
+  background: ${props => (props.background ? '#fff' : 'transparent')};
 `;
 
 export const Content = styled.View`
