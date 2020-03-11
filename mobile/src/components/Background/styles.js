@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Top = styled.View`
   position: relative;
   background: #7d40e7;
-  height: 155px;
+  height: 186px;
 `;
 
 export const Content = styled.View`
