@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   position: relative;
+  background: #fff;
 `;
 
 export const Top = styled.View`

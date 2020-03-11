@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import OrderSteps from './OrderSteps';
@@ -36,7 +37,7 @@ import {
 
 import { signOut } from '~/store/modules/auth/actions';
 
-export default function Deliveries() {
+export default function Deliveries({ navigation }) {
   const dispatch = useDispatch();
   const profile = useSelector(state => state.user.profile);
 
@@ -139,7 +140,11 @@ export default function Deliveries() {
                 <DataLabel>Cidade</DataLabel>
                 <DataText>{item.recipient.city}</DataText>
               </Data>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Details', { delivery: item })
+                }
+              >
                 <DataLink>Ver detalhes</DataLink>
               </TouchableOpacity>
             </DeliveryInfo>
@@ -151,9 +156,11 @@ export default function Deliveries() {
 }
 
 Deliveries.navigationOptions = {
-  tabBarLabel: 'Entregas',
-  // eslint-disable-next-line react/prop-types
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="reorder" size={25} color={tintColor} />
-  ),
+  headerShown: false,
+};
+
+Deliveries.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
