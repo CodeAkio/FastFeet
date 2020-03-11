@@ -72,8 +72,12 @@ export default function Details({ navigation }) {
             <Icon name="highlight-off" size={24} color="#E74040" />
             <ActionText>Informar{'\n'}Problema</ActionText>
           </ActionButton>
-          <ActionCenter onPress={() => {}}>
-            <ActionButton>
+          <ActionCenter>
+            <ActionButton
+              onPress={() =>
+                navigation.navigate('ShowProblems', { deliveryId: delivery.id })
+              }
+            >
               <Icon name="info-outline" size={24} color="#E7BA40" />
               <ActionText>Visualizar{'\n'}Problemas</ActionText>
             </ActionButton>
