@@ -91,7 +91,7 @@ export default function Deliveries({ navigation }) {
   }
 
   return (
-    <Container>
+    <Container background>
       <Header>
         <ProfileView>
           <Avatar source={{ uri: avatar }} />
