@@ -40,6 +40,11 @@ export default function ShowProblems({ navigation }) {
               <Date>{formatDate(item.createdAt)}</Date>
             </Card>
           )}
+          ListEmptyComponent={() => (
+            <Card>
+              <Description>Não há problemas para serem exibidos!</Description>
+            </Card>
+          )}
         />
       </Container>
     </Background>
