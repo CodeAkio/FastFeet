@@ -42,7 +42,9 @@ export default function ShowProblems({ navigation }) {
           )}
           ListEmptyComponent={() => (
             <Card>
-              <Description>Não há problemas para serem exibidos!</Description>
+              <Description>
+                Não há nenhum problema para ser exibido!
+              </Description>
             </Card>
           )}
         />
