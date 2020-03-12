@@ -70,7 +70,13 @@ export default function Details({ navigation }) {
             </DataRow>
           </Card>
           <CardAction>
-            <ActionButton onPress={() => {}}>
+            <ActionButton
+              onPress={() =>
+                navigation.navigate('ReportProblem', {
+                  deliveryId: delivery.id,
+                })
+              }
+            >
               <Icon name="highlight-off" size={24} color="#E74040" />
               <ActionText>Informar{'\n'}Problema</ActionText>
             </ActionButton>

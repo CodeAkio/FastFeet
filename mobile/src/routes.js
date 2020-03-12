@@ -11,7 +11,7 @@ import Deliveries from '~/pages/Deliveries';
 import Profile from '~/pages/Profile';
 
 import Details from '~/pages/Delivery/Details';
-import ReportProblems from '~/pages/Delivery/ReportProblems';
+import ReportProblem from '~/pages/Delivery/ReportProblem';
 import ShowProblems from '~/pages/Delivery/ShowProblems';
 import Confirm from '~/pages/Delivery/Confirm';
 
@@ -29,7 +29,7 @@ export default (signedIn = false) =>
                 {
                   Deliveries,
                   Details,
-                  ReportProblems,
+                  ReportProblem,
                   ShowProblems,
                   Confirm,
                 },
@@ -66,24 +66,6 @@ export default (signedIn = false) =>
               },
               labelStyle: {
                 fontSize: 14,
-              },
-            },
-          }
-        ),
-        Delivery: createStackNavigator(
-          {
-            Deliveries,
-            Details,
-            ReportProblems,
-            ShowProblems,
-            Confirm,
-          },
-          {
-            defaultNavigationOptions: {
-              headerTransparent: true,
-              headerTintColor: '#fff',
-              headerLeftContainerStyle: {
-                marginLeft: 16,
               },
             },
           }
