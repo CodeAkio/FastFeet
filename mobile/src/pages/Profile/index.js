@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { Scroll } from '~/components/Scroll';
 import formatDate from '~/utils/formatDate';
 import {
   Container,
@@ -30,26 +31,28 @@ export default function Profile() {
   }
 
   return (
-    <Container>
-      <Avatar source={{ uri: avatar }} />
-      <InfoSection>
-        <InfoGroup>
-          <Header>Nome completo</Header>
-          <TextInfo>{name}</TextInfo>
-        </InfoGroup>
-        <InfoGroup>
-          <Header>E-mail</Header>
-          <TextInfo>{email}</TextInfo>
-        </InfoGroup>
-        <InfoGroup>
-          <Header>Data de cadastro</Header>
-          <TextInfo>{formattedDate}</TextInfo>
-        </InfoGroup>
-        <LogoutButton loading={loading} onPress={handleLogout}>
-          Logout
-        </LogoutButton>
-      </InfoSection>
-    </Container>
+    <Scroll>
+      <Container>
+        <Avatar source={{ uri: avatar }} />
+        <InfoSection>
+          <InfoGroup>
+            <Header>Nome completo</Header>
+            <TextInfo>{name}</TextInfo>
+          </InfoGroup>
+          <InfoGroup>
+            <Header>E-mail</Header>
+            <TextInfo>{email}</TextInfo>
+          </InfoGroup>
+          <InfoGroup>
+            <Header>Data de cadastro</Header>
+            <TextInfo>{formattedDate}</TextInfo>
+          </InfoGroup>
+          <LogoutButton loading={loading} onPress={handleLogout}>
+            Logout
+          </LogoutButton>
+        </InfoSection>
+      </Container>
+    </Scroll>
   );
 }
 
