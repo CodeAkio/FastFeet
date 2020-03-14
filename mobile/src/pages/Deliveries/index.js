@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import OrderSteps from './OrderSteps';
 
-// import formatDate from '~/utils/formatDate';
 import api from '~/services/api';
 import formatId from '~/utils/formatId';
 import formatDate from '~/utils/formatDate';
@@ -37,7 +37,7 @@ import {
 
 import { signOut } from '~/store/modules/auth/actions';
 
-export default function Deliveries({ navigation }) {
+function Deliveries({ navigation, isFocused }) {
   const dispatch = useDispatch();
   const profile = useSelector(state => state.user.profile);
 
@@ -47,7 +47,6 @@ export default function Deliveries({ navigation }) {
 
   const avatar = profile.avatar.url;
   const { name, id } = profile;
-  // const formattedDate = formatDate(createdAt);
 
   useEffect(() => {
     async function loadDeliveries() {
@@ -60,8 +59,10 @@ export default function Deliveries({ navigation }) {
       setDeliveries(response.data);
     }
 
-    loadDeliveries();
-  }, [delivered, id]);
+    if (isFocused) {
+      loadDeliveries();
+    }
+  }, [delivered, id, isFocused]);
 
   function handleLogout() {
     dispatch(signOut());
@@ -142,7 +143,7 @@ export default function Deliveries({ navigation }) {
               </Data>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('Details', { delivery: item })
+                  navigation.navigate('Details', { deliveryId: item.id })
                 }
               >
                 <DataLink>Ver detalhes</DataLink>
@@ -163,4 +164,7 @@ Deliveries.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  isFocused: PropTypes.bool.isRequired,
 };
+
+export default withNavigationFocus(Deliveries);

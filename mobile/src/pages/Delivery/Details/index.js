@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity, Alert } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,25 +26,43 @@ import {
   ActionText,
 } from './styles';
 
-export default function Details({ navigation }) {
+function Details({ navigation, isFocused }) {
   const deliverymanId = useSelector(state => state.user.profile.id);
-  const delivery = navigation.getParam('delivery');
-  const { recipient } = delivery;
+  const deliveryId = navigation.getParam('deliveryId');
+
+  const [delivery, setDelivery] = useState({});
+  const [recipient, setRecipient] = useState({});
+
+  async function loadDelivery() {
+    const response = await api.get(
+      `/deliveryman/${deliverymanId}/deliveries/${deliveryId}`
+    );
+
+    setDelivery(response.data);
+    setRecipient(response.data.recipient);
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      loadDelivery();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
 
   async function withdrawOrder() {
     try {
-      const response = await api.put(
-        `/deliveryman/${deliverymanId}/deliveries/${delivery.id}`,
-        {
-          start_date: new Date(),
-        }
-      );
+      await api.put(`/deliveryman/${deliverymanId}/deliveries/${delivery.id}`, {
+        start_date: new Date(),
+      });
+
+      loadDelivery();
+
       Alert.alert('Sucesso', 'Entrega retirada com sucesso');
     } catch (err) {
       console.tron.log(err);
       Alert.alert(
         'Falha',
-        'Houve uma falha ao registrar o problema, verifique:\n* Se os dados estão válidos\n* Se a retirada está entre 8h e 18h\n* Se está tentando retirar mais de 5 entregas em um dia'
+        'Houve uma falha ao registrar o problema, verifique seus'
       );
     }
   }
@@ -172,4 +191,7 @@ Details.propTypes = {
     navigate: PropTypes.func.isRequired,
     getParam: PropTypes.func.isRequired,
   }).isRequired,
+  isFocused: PropTypes.bool.isRequired,
 };
+
+export default withNavigationFocus(Details);
