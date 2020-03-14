@@ -1,9 +1,11 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
+import { TouchableOpacity, Alert } from 'react-native';
 
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import api from '~/services/api';
 import formatDate from '~/utils/formatDate';
 import Background from '~/components/Background';
 import { Scroll } from '~/components/Scroll';
@@ -24,8 +26,45 @@ import {
 } from './styles';
 
 export default function Details({ navigation }) {
+  const deliverymanId = useSelector(state => state.user.profile.id);
   const delivery = navigation.getParam('delivery');
   const { recipient } = delivery;
+
+  async function withdrawOrder() {
+    try {
+      const response = await api.put(
+        `/deliveryman/${deliverymanId}/deliveries/${delivery.id}`,
+        {
+          start_date: new Date(),
+        }
+      );
+      Alert.alert('Sucesso', 'Entrega retirada com sucesso');
+    } catch (err) {
+      console.tron.log(err);
+      Alert.alert(
+        'Falha',
+        'Houve uma falha ao registrar o problema, verifique:\n* Se os dados estão válidos\n* Se a retirada está entre 8h e 18h\n* Se está tentando retirar mais de 5 entregas em um dia'
+      );
+    }
+  }
+
+  function handleWithdrawOrder() {
+    Alert.alert(
+      'Confirmação',
+      'Deseja realizar a retirada desta encomenda?',
+      [
+        {
+          text: 'Sim',
+          onPress: withdrawOrder,
+        },
+        {
+          text: 'Não',
+          onPress: () => {},
+        },
+      ],
+      { cancelable: false }
+    );
+  }
 
   return (
     <Background>
@@ -69,34 +108,43 @@ export default function Details({ navigation }) {
               </Data>
             </DataRow>
           </Card>
-          <CardAction>
-            <ActionButton
-              onPress={() =>
-                navigation.navigate('ReportProblem', {
-                  deliveryId: delivery.id,
-                })
-              }
-            >
-              <Icon name="highlight-off" size={24} color="#E74040" />
-              <ActionText>Informar{'\n'}Problema</ActionText>
-            </ActionButton>
-            <ActionCenter>
+          {delivery.status === 'pendente' ? (
+            <CardAction>
+              <ActionButton onPress={handleWithdrawOrder}>
+                <Icon name="alarm-on" size={24} color="#7D40E7" />
+                <ActionText>Retirar{'\n'}Encomenda</ActionText>
+              </ActionButton>
+            </CardAction>
+          ) : (
+            <CardAction>
               <ActionButton
                 onPress={() =>
-                  navigation.navigate('ShowProblems', {
+                  navigation.navigate('ReportProblem', {
                     deliveryId: delivery.id,
                   })
                 }
               >
-                <Icon name="info-outline" size={24} color="#E7BA40" />
-                <ActionText>Visualizar{'\n'}Problemas</ActionText>
+                <Icon name="highlight-off" size={24} color="#E74040" />
+                <ActionText>Informar{'\n'}Problema</ActionText>
               </ActionButton>
-            </ActionCenter>
-            <ActionButton onPress={() => {}}>
-              <Icon name="alarm-on" size={24} color="#7D40E7" />
-              <ActionText>Confirmar{'\n'}Entrega</ActionText>
-            </ActionButton>
-          </CardAction>
+              <ActionCenter>
+                <ActionButton
+                  onPress={() =>
+                    navigation.navigate('ShowProblems', {
+                      deliveryId: delivery.id,
+                    })
+                  }
+                >
+                  <Icon name="info-outline" size={24} color="#E7BA40" />
+                  <ActionText>Visualizar{'\n'}Problemas</ActionText>
+                </ActionButton>
+              </ActionCenter>
+              <ActionButton onPress={() => {}}>
+                <Icon name="alarm-on" size={24} color="#7D40E7" />
+                <ActionText>Confirmar{'\n'}Entrega</ActionText>
+              </ActionButton>
+            </CardAction>
+          )}
         </Scroll>
       </Container>
     </Background>
