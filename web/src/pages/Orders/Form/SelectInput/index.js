@@ -39,6 +39,7 @@ export default function Select({ apiPath, value, onChange }) {
       cacheOptions
       defaultOptions={elements}
       loadOptions={promiseElements}
+      noOptionsMessage={() => 'Nenhuma opção'}
       options={elements}
       value={value}
       onChange={onChange}
