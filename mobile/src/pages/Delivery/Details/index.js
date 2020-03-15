@@ -62,7 +62,7 @@ function Details({ navigation, isFocused }) {
       console.tron.log(err);
       Alert.alert(
         'Falha',
-        'Houve uma falha ao registrar o problema, verifique seus'
+        'Houve uma falha ao registrar o problema, verifique seus dados'
       );
     }
   }
@@ -158,7 +158,13 @@ function Details({ navigation, isFocused }) {
                   <ActionText>Visualizar{'\n'}Problemas</ActionText>
                 </ActionButton>
               </ActionCenter>
-              <ActionButton onPress={() => {}}>
+              <ActionButton
+                onPress={() =>
+                  navigation.navigate('Confirm', {
+                    deliveryId: delivery.id,
+                  })
+                }
+              >
                 <Icon name="alarm-on" size={24} color="#7D40E7" />
                 <ActionText>Confirmar{'\n'}Entrega</ActionText>
               </ActionButton>

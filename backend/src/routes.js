@@ -32,6 +32,8 @@ routes.get('/deliverymen/:id', DeliverymanController.show);
 routes.get('/delivery/:id/problems', DeliveryProblemController.show);
 routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
+routes.post('/files', upload.single('file'), FileController.store);
+
 routes.use(authMiddleware);
 
 routes.get('/recipients', RecipientController.index);
@@ -56,7 +58,5 @@ routes.delete(
   '/delivery/:id/cancel-delivery',
   DeliveryProblemController.delete
 );
-
-routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;
