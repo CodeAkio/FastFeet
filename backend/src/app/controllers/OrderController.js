@@ -10,7 +10,7 @@ import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
-    const { page = 1, q: query } = req.query;
+    const { q: query } = req.query;
 
     const orders = await Order.findAll({
       attributes: [
@@ -21,8 +21,6 @@ class OrderController {
         'start_date',
         'end_date',
       ],
-      limit: 20,
-      offset: (page - 1) * 20,
       include: [
         {
           model: Recipient,

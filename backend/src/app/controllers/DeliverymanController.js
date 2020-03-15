@@ -6,11 +6,9 @@ import File from '../models/File';
 
 class DeliverymanController {
   async index(req, res) {
-    const { page = 1, q: query } = req.query;
+    const { q: query } = req.query;
 
     const deliverymen = await Deliveryman.findAll({
-      limit: 20,
-      offset: (page - 1) * 20,
       include: [
         {
           model: File,
