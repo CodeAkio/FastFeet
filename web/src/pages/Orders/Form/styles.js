@@ -81,6 +81,14 @@ export const SelectContainer = styled.div`
   margin-bottom: 15px;
   font-size: 16px;
   color: #999;
+  label {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0;
+    color: #444;
+    margin-bottom: 8px;
+  }
   input {
     background: #fff;
     border: 1px solid #dddddd;

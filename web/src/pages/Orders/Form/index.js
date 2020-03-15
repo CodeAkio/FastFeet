@@ -165,7 +165,9 @@ export default function OrderForm({ match, history }) {
         <FormContent>
           <RowFields>
             <SelectContainer size={411} rightSpace>
+              <label htmlFor="recipient">Destinatário</label>
               <Select
+                id="recipient"
                 apiPath="recipients"
                 value={recipientField}
                 onChange={setRecipientField}
@@ -173,7 +175,9 @@ export default function OrderForm({ match, history }) {
               <span>{recipientFieldError}</span>
             </SelectContainer>
             <SelectContainer size={411} rightSpace>
+              <label htmlFor="deliveryman">Entregador</label>
               <Select
+                id="deliveryman"
                 apiPath="deliverymen"
                 value={deliverymanField}
                 onChange={setDeliverymanField}
