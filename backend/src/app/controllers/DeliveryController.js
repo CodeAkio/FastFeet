@@ -56,6 +56,11 @@ class DeliveryController {
       return res.json(ordersDelivered);
     }
 
+    if (req.query.delivered === 'false') {
+      const ordersDelivered = orders.filter(order => order.end_date === null);
+      return res.json(ordersDelivered);
+    }
+
     return res.json(orders);
   }
 
