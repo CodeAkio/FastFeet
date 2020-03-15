@@ -127,14 +127,29 @@ function Details({ navigation, isFocused }) {
               </Data>
             </DataRow>
           </Card>
-          {delivery.status === 'pendente' ? (
+          {delivery.status === 'pendente' && (
             <CardAction>
               <ActionButton onPress={handleWithdrawOrder}>
                 <Icon name="alarm-on" size={24} color="#7D40E7" />
                 <ActionText>Retirar{'\n'}Encomenda</ActionText>
               </ActionButton>
             </CardAction>
-          ) : (
+          )}
+          {delivery.status === 'entregue' && (
+            <CardAction>
+              <ActionButton
+                onPress={() =>
+                  navigation.navigate('ShowProblems', {
+                    deliveryId: delivery.id,
+                  })
+                }
+              >
+                <Icon name="info-outline" size={24} color="#E7BA40" />
+                <ActionText>Visualizar{'\n'}Problemas</ActionText>
+              </ActionButton>
+            </CardAction>
+          )}
+          {delivery.status !== 'pendente' && delivery.status !== 'entregue' && (
             <CardAction>
               <ActionButton
                 onPress={() =>
