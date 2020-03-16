@@ -2,9 +2,26 @@
   <img alt="Fastfeet" title="Fastfeet" src="https://github.com/Rocketseat/bootcamp-gostack-desafio-02/raw/master/.github/logo.png" width="300px" />
 </h1>
 
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/CodeAkio/FastFeet">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/CodeAkio/FastFeet">
+
+  <a href="https://github.com/Rocketseat/semana-omnistack-10/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/CodeAkio/FastFeet">
+  </a>
+</p>
+
 <h3 align="center">
   Sistema de gerenciamento de transportadora
 </h3>
+
+<p align="center">
+  <a href="#tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#utilização">Utilização</a>&nbsp;&nbsp;&nbsp;
+</p>
+
+<br>
 
 ## Tecnologias
 
