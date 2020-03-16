@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   MdAdd,
   MdMoreHoriz,
@@ -10,6 +11,7 @@ import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { changeItem } from '~/store/modules/menu/actions';
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
 import {
@@ -24,8 +26,14 @@ import OptionsList from '~/components/OptionsList';
 import Alert from '~/components/Alert';
 
 export default function Order() {
+  const dispatch = useDispatch();
+
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    dispatch(changeItem('ENCOMENDAS'));
+  });
 
   useEffect(() => {
     async function loadRecepients() {

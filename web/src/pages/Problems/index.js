@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdMoreHoriz, MdVisibility, MdDeleteForever } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
+import { changeItem } from '~/store/modules/menu/actions';
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
 import { Container } from './styles';
@@ -10,7 +12,12 @@ import OptionsList from '~/components/OptionsList';
 import Alert from '~/components/Alert';
 
 export default function Problems() {
+  const dispatch = useDispatch();
   const [problems, setProblems] = useState([]);
+
+  useEffect(() => {
+    dispatch(changeItem('PROBLEMAS'));
+  });
 
   useEffect(() => {
     async function loadProblems() {

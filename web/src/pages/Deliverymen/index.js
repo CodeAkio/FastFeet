@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   MdAdd,
   MdMoreHoriz,
@@ -8,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { changeItem } from '~/store/modules/menu/actions';
 import api from '~/services/api';
 import formattedId from '~/utils/formattedId';
 import { Container, HeaderDiv, Avatar } from './styles';
@@ -15,8 +17,14 @@ import OptionsList from '~/components/OptionsList';
 import Alert from '~/components/Alert';
 
 export default function Deliverymen() {
+  const dispatch = useDispatch();
+
   const [deliverymen, setDeliverymen] = useState([]);
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    dispatch(changeItem('ENTREGADORES'));
+  });
 
   useEffect(() => {
     async function loadDeliverymen() {

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
@@ -7,6 +8,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import Select from './SelectInput';
 
+import { changeItem } from '~/store/modules/menu/actions';
 import api from '~/services/api';
 import {
   Container,
@@ -32,6 +34,8 @@ const schema = Yup.object().shape({
 });
 
 export default function OrderForm({ match, history }) {
+  const dispatch = useDispatch();
+
   const [productField, setProductField] = useState('');
   const [productFieldError, setProductFieldError] = useState('');
 
@@ -43,6 +47,10 @@ export default function OrderForm({ match, history }) {
 
   const { id } = match.params;
   const formType = id ? 'edit' : 'new';
+
+  useEffect(() => {
+    dispatch(changeItem('ENCOMENDAS'));
+  });
 
   useEffect(() => {
     async function loadOrder() {

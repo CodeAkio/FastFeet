@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
@@ -7,6 +8,7 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
+import { changeItem } from '~/store/modules/menu/actions';
 import api from '~/services/api';
 import {
   Container,
@@ -32,10 +34,15 @@ const schema = Yup.object().shape({
 });
 
 export default function DeliverymanForm({ match, history }) {
+  const dispatch = useDispatch();
   const [deliveryman, setDeliveryman] = useState(null);
 
   const { id } = match.params;
   const formType = id ? 'edit' : 'new';
+
+  useEffect(() => {
+    dispatch(changeItem('ENTREGADORES'));
+  });
 
   useEffect(() => {
     async function loadDeliveryman() {
