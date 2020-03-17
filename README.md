@@ -123,7 +123,7 @@
 
 Após baixar o projeto pelo **git clone**, realize os seguintes passos:
 
-**No back-end:**
+### Backend
 
 1. Instale o [node.js](https://nodejs.org/en/download/) e [yarn](https://classic.yarnpkg.com/pt-BR/docs/install/);
 
@@ -141,7 +141,7 @@ yarn sequelize db:seed:all
 yarn dev
 ```
 
-### Na web:
+### Web:
 
 1. Realize os passos do back-end;
 
@@ -153,7 +153,7 @@ yarn install
 yarn start
 ```
 
-### No mobile:
+### Mobile:
 
 1. Realize os passos do back-end;
 
