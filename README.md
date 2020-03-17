@@ -17,14 +17,21 @@
 </h3>
 
 <p align="center">
+  <a href="#demonstração">Demonstração</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#utilização">Utilização</a>&nbsp;&nbsp;&nbsp;
 </p>
 
 <br>
 
+## Demonstração
+
+<br>
+
+### Web
+
 <p align="center">
-  ![web](web.gif)
+  <img alt="web" src="https://github.com/CodeAkio/FastFeet/raw/master/web.gif" width="100%">
 </p>
 
 <br>
@@ -153,13 +160,13 @@ cd FastFeet/mobile
 yarn install
 ```
 
-  3.1. Para iOS:
+  * Para iOS:
 
 ```console
 react-native run-ios
 ```
 
-  3.2. Para Android:
+  * Para Android:
 
 ```console
 react-native run-android
