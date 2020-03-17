@@ -23,6 +23,12 @@
 
 <br>
 
+<p align="center">
+  ![web](web.gif)
+</p>
+
+<br>
+
 ## Tecnologias
 
 ### Backend
@@ -147,13 +153,13 @@ cd FastFeet/mobile
 yarn install
 ```
 
-3.1. Para iOS:
+  3.1. Para iOS:
 
 ```console
 react-native run-ios
 ```
 
-3.2. Para Android:
+  3.2. Para Android:
 
 ```console
 react-native run-android
