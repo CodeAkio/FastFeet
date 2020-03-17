@@ -141,7 +141,7 @@ yarn sequelize db:seed:all
 yarn dev
 ```
 
-### Web:
+### Web
 
 1. Realize os passos do back-end;
 
@@ -153,7 +153,7 @@ yarn install
 yarn start
 ```
 
-### Mobile:
+### Mobile
 
 1. Realize os passos do back-end;
 
