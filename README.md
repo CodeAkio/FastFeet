@@ -32,6 +32,8 @@
   <img alt="web" src="https://github.com/CodeAkio/FastFeet/raw/master/mobile.gif" width="100%">
 </p>
 
+<p><strong>Observação: </strong>Testado apenas no iOS</p>
+
 <br>
 
 #### Web
@@ -39,6 +41,8 @@
 <p align="center">
   <img alt="web" src="https://github.com/CodeAkio/FastFeet/raw/master/web.gif" width="100%">
 </p>
+
+<p><strong>Observação: </strong>Testado apenas no Google Chrome</p>
 
 <br>
 
