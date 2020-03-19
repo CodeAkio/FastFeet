@@ -71,7 +71,7 @@ export default function Problems() {
 
   async function cancelOrder(id) {
     try {
-      await api.delete(`/delivery/${id}/cancel-delivery`);
+      await api.delete(`/problem/${id}/cancel-delivery`);
       toast.success(`A encomenda ${formattedId(id)} foi cancelada com sucesso`);
     } catch (err) {
       toast.error(`Não foi possível cancelar a encomenda ${formattedId(id)}`);
