@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { getHours, parseISO } from 'date-fns';
 import { Op } from 'sequelize';
 
@@ -111,16 +110,6 @@ class DeliveryController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      start_date: Yup.date(),
-      end_date: Yup.date(),
-      signature_id: Yup.number(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
     const { deliverymanId, orderId } = req.params;
     const { start_date, end_date, signature_id } = req.body;
 

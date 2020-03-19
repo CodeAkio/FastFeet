@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import Order from '../models/Order';
 import File from '../models/File';
@@ -121,20 +120,6 @@ class OrderController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      recipient_id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
-      signatureId: Yup.number(),
-      product: Yup.string().required(),
-      canceled_at: Yup.date(),
-      start_date: Yup.date(),
-      end_date: Yup.date(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
     const deliverymanExists = await Deliveryman.findByPk(
       req.body.deliveryman_id
     );
@@ -176,20 +161,6 @@ class OrderController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      recipient_id: Yup.number(),
-      deliveryman_id: Yup.number(),
-      signatureId: Yup.number(),
-      product: Yup.string(),
-      canceled_at: Yup.date(),
-      start_date: Yup.date(),
-      end_date: Yup.date(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
     let deliverymanChanged = false;
     const orderId = req.params.id;
     const order = await Order.findByPk(orderId);
