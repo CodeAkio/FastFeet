@@ -53,11 +53,15 @@ class DeliveryController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
+    try {
+      const { id } = req.params;
 
-    const order = await CancelDeliveryService.run({ id });
+      const order = await CancelDeliveryService.run({ id });
 
-    return res.json(order);
+      return res.json(order);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 }
 
