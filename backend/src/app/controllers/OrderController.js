@@ -7,6 +7,8 @@ import Recipient from '../models/Recipient';
 import NewOrderMail from '../jobs/NewOrderMail';
 import Queue from '../../lib/Queue';
 
+import CreateOrderService from '../services/CreateOrderService';
+
 class OrderController {
   async index(req, res) {
     const { q: query } = req.query;
@@ -120,44 +122,18 @@ class OrderController {
   }
 
   async store(req, res) {
-    const deliverymanExists = await Deliveryman.findByPk(
-      req.body.deliveryman_id
-    );
-
-    if (!deliverymanExists) {
-      return res.status(400).json({
-        message: 'Deliveryman not found!',
+    try {
+      const order = await CreateOrderService.run({
+        deliveryman_id: req.body.deliveryman_id,
+        recipient_id: req.body.recipient_id,
+        signature_id: req.body.signature_id,
+        orderData: req.body,
       });
+
+      return res.status(201).json(order);
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
     }
-
-    const recipientExists = await Recipient.findByPk(req.body.recipient_id);
-
-    if (!recipientExists) {
-      return res.status(400).json({
-        message: 'Recipient not found!',
-      });
-    }
-
-    const signatureId = req.body.signature_id;
-
-    if (signatureId) {
-      const signatureExists = await File.findByPk(signatureId);
-
-      if (!signatureExists) {
-        return res.status(400).json({
-          message: 'Signature not found!',
-        });
-      }
-    }
-
-    const order = await Order.create(req.body);
-
-    await Queue.add(NewOrderMail.key, {
-      deliveryman: deliverymanExists,
-      product: order.product,
-    });
-
-    return res.status(201).json(order);
   }
 
   async update(req, res) {
