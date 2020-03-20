@@ -4,10 +4,8 @@ import File from '../models/File';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 
-import NewOrderMail from '../jobs/NewOrderMail';
-import Queue from '../../lib/Queue';
-
 import CreateOrderService from '../services/CreateOrderService';
+import UpdateOrderService from '../services/UpdateOrderService';
 
 class OrderController {
   async index(req, res) {
@@ -137,66 +135,19 @@ class OrderController {
   }
 
   async update(req, res) {
-    let deliverymanChanged = false;
-    const orderId = req.params.id;
-    const order = await Order.findByPk(orderId);
-
-    if (!order) {
-      return res.status(400).json({
-        message: 'Order not found!',
+    try {
+      const order = await UpdateOrderService.run({
+        orderId: req.params.id,
+        deliverymanId: req.body.deliveryman_id,
+        recipientId: req.body.recipient_id,
+        signatureId: req.body.signature_id,
+        orderData: req.body,
       });
+
+      return res.json(order);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
     }
-
-    const deliverymanId = req.body.deliveryman_id;
-
-    if (deliverymanId && deliverymanId !== order.deliveryman_id) {
-      const deliverymanExists = await Deliveryman.findByPk(deliverymanId);
-
-      if (!deliverymanExists) {
-        return res.status(400).json({
-          message: 'Deliveryman not found!',
-        });
-      }
-
-      deliverymanChanged = true;
-    }
-
-    const recipientId = req.body.recipient_id;
-
-    if (recipientId && recipientId !== order.recipient_id) {
-      const recipientExists = await Recipient.findByPk(req.body.recipient_id);
-
-      if (!recipientExists) {
-        return res.status(400).json({
-          message: 'Recipient not found!',
-        });
-      }
-    }
-
-    const signatureId = req.body.signature_id;
-
-    if (signatureId && signatureId !== order.signature_id) {
-      const signatureExists = await File.findByPk(signatureId);
-
-      if (!signatureExists) {
-        return res.status(400).json({
-          message: 'Signature not found!',
-        });
-      }
-    }
-
-    await order.update(req.body);
-
-    if (deliverymanChanged) {
-      const deliveryman = await Deliveryman.findByPk(deliverymanId);
-
-      await Queue.add(NewOrderMail.key, {
-        deliveryman,
-        product: order.product,
-      });
-    }
-
-    return res.json(order);
   }
 
   async delete(req, res) {
