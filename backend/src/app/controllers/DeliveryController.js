@@ -6,61 +6,20 @@ import File from '../models/File';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 
+import ListDeliveriesService from '../services/ListDeliveriesService';
+
 class DeliveryController {
   async index(req, res) {
-    const deliverymanId = req.params.id;
+    try {
+      const orders = await ListDeliveriesService.run({
+        deliveryman_id: req.params.id,
+        delivered: req.query.delivered,
+      });
 
-    const orders = await Order.findAll({
-      where: {
-        deliveryman_id: deliverymanId,
-        canceled_at: null,
-      },
-      include: [
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: [
-            'id',
-            'name',
-            'street',
-            'number',
-            'complement',
-            'state',
-            'city',
-            'cep',
-          ],
-        },
-        {
-          model: Deliveryman,
-          as: 'deliveryman',
-          attributes: ['id', 'name', 'email'],
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-              attributes: ['id', 'path', 'url'],
-            },
-          ],
-        },
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['id', 'path', 'url'],
-        },
-      ],
-    });
-
-    if (req.query.delivered === 'true') {
-      const ordersDelivered = orders.filter(order => order.end_date !== null);
-      return res.json(ordersDelivered);
+      return res.json(orders);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
     }
-
-    if (req.query.delivered === 'false') {
-      const ordersDelivered = orders.filter(order => order.end_date === null);
-      return res.json(ordersDelivered);
-    }
-
-    return res.json(orders);
   }
 
   async show(req, res) {
