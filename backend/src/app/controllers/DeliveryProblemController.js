@@ -1,9 +1,7 @@
 import DeliveryProblem from '../models/DeliveryProblem';
 import Order from '../models/Order';
-import Deliveryman from '../models/Deliveryman';
 
-import CancellationMail from '../jobs/CancellationMail';
-import Queue from '../../lib/Queue';
+import CancelDeliveryService from '../services/CancelDeliveryService';
 
 class DeliveryController {
   async index(req, res) {
@@ -57,25 +55,7 @@ class DeliveryController {
   async delete(req, res) {
     const { id } = req.params;
 
-    const deliveryProblem = await DeliveryProblem.findByPk(id);
-
-    if (!deliveryProblem) {
-      return res.status(400).json({
-        message: 'Delivery problem not found!',
-      });
-    }
-
-    const order = await Order.findByPk(deliveryProblem.delivery_id);
-    order.canceled_at = new Date();
-
-    await order.save();
-
-    const deliveryman = await Deliveryman.findByPk(order.deliveryman_id);
-
-    await Queue.add(CancellationMail.key, {
-      deliveryman,
-      product: order.product,
-    });
+    const order = await CancelDeliveryService.run({ id });
 
     return res.json(order);
   }
