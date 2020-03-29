@@ -73,5 +73,9 @@
   </array>
   <key>NSCameraUsageDescription</key>
   <string>Você permite o app acessar a câmera?</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Você permite o app acessar a galeria de imagens?</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Você permite o app ter acesso ao microfone?</string>
 </dict>
 </plist>
